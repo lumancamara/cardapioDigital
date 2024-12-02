@@ -190,7 +190,7 @@ checkoutBtn.addEventListener("click", function(){
 function checkDogaoOpen(){
     const data = new Date();
     const hora = data.getHours();
-    return hora >= 21 && hora < 23;
+    return hora >= 19 && hora < 23;
     
     //true = restaurante aberto (checar como colcoar horário quebrado)
 }
