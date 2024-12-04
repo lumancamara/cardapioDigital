@@ -1,7 +1,7 @@
 import { toReal } from '@/lib/utils';
 import { useCartStore } from '@/stores/cart';
 import { MenuItem } from '@/types/menu';
-import { ShoppingCartIcon } from 'lucide-react';
+import { PlusIcon, ShoppingCartIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Props {
@@ -29,10 +29,11 @@ export default function MenuCard({ menuItem }: Props) {
         <div className="mt-3 flex items-center justify-between gap-2">
           <p className="text-lg font-bold">{toReal(menuItem.price)}</p>
           <button
-            className="rounded bg-gray-900 px-4"
+            className="rounded bg-gray-900 px-4 py-1 flex-center"
             onClick={handleAddToCart}
           >
-            <ShoppingCartIcon />
+            <ShoppingCartIcon className="text-white" />
+            <PlusIcon className="size-5 text-white" strokeWidth={3} />
           </button>
         </div>
       </div>
