@@ -14,8 +14,8 @@ export function checkoutToWhatsapp(cart: CartItem[], formValues: FormSchema) {
     })
     .join('%0a');
   const encodedItems = cartItems; //encodeURIComponent(cartItems);
-  const phone = '55' + formValues.phoneNumber;
+  const formattedPhoneNumber = formValues.phoneNumber.replace(/\D/g, '');
+  const phone = '55' + formattedPhoneNumber;
   const url = `https://wa.me/${phone}?text=${encodedItems}%0aEndereço: ${formValues.address}, ${formValues.addressNumber}%0aObs: ${formValues.observation || ''}`;
-  console.log(url);
   window.location.href = url;
 }

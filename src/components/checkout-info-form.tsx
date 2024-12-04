@@ -48,14 +48,8 @@ export default function CheckoutInfoForm({
     },
   });
 
-  function onSubmit(values: FormSchema) {
-    console.log(values);
-    setFormValues(values);
-  }
-
   useEffect(() => {
     const subscription = form.watch((values) => {
-      console.log(values);
       setFormValues(values as FormSchema);
     });
     return () => subscription.unsubscribe();
@@ -67,7 +61,7 @@ export default function CheckoutInfoForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form className="space-y-4">
         <FormField
           control={form.control}
           name="name"

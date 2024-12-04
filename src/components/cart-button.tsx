@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { CLOSING_HOUR, OPENING_HOUR } from '@/constants/time';
 import { isWorkingTime, toReal } from '@/lib/utils';
 import { checkoutToWhatsapp } from '@/services/cart';
 import { getWorkingTime } from '@/services/time';
@@ -44,7 +43,7 @@ export default function CartButton() {
   function handleSubmit() {
     if (!isWorkingTime(qWorkingTime.data)) {
       toast.error(
-        `Sentimos muito mas estamos fechados no momento! Favor Tentar no horário entre ${OPENING_HOUR}h e ${CLOSING_HOUR}h de Sexta à Domingo!`,
+        `Sentimos muito mas estamos fechados no momento! Favor Tentar no horário entre ${qWorkingTime.data.opening_hour}h e ${qWorkingTime.data.closing_hour}h de Sexta à Domingo!`,
         {
           classNames: { toast: '!bg-red-500 !text-white' },
         }
