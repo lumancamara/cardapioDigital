@@ -50,7 +50,11 @@ export default function CartButton() {
       clearCart();
       setOpen(false);
     } catch (e) {
-      toast.error(e as string);
+      if (e instanceof Error) {
+        toast.error(e.message);
+      } else {
+        toast.error('Erro ao enviar o pedido');
+      }
     }
   }
 

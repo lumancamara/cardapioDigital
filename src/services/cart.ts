@@ -10,11 +10,11 @@ export function checkoutToWhatsapp(cart: CartItem[], formValues: FormSchema) {
   }
   const cartItems = cart
     .map((item) => {
-      return `%0a${item.title} Quantidade: (${item.quantity}) Preço: R$ ${item.price}`;
+      return `${item.title} Quantidade: (${item.quantity}) Preço: *R$ ${item.price}*`;
     })
-    .join(' ');
-  const encodedItems = encodeURIComponent(cartItems);
-  const phone = formValues.phoneNumber;
+    .join('%0a');
+  const encodedItems = cartItems; //encodeURIComponent(cartItems);
+  const phone = '55' + formValues.phoneNumber;
   const url = `https://wa.me/${phone}?text=${encodedItems}%0aEndereço: ${formValues.address}, ${formValues.addressNumber}%0aObs: ${formValues.observation || ''}`;
   console.log(url);
   window.location.href = url;
