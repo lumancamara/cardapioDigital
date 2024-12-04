@@ -21,11 +21,11 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex-col flex-center">
-      <h2 className="my-9 text-center text-2xl font-bold md:text-4xl">
+      <h2 className="my-10 text-center text-2xl font-bold md:text-4xl">
         Veja nosso cardápio
       </h2>
 
-      <h3 className="text-3xl font-bold">Lanches</h3>
+      <h3 className="my-10 text-3xl font-bold">Lanches</h3>
       {qMenu.isLoading ? (
         <Loader />
       ) : (
@@ -37,7 +37,7 @@ export default function HomePage() {
         )
       )}
 
-      <h3 className="text-3xl font-bold">Bebidas</h3>
+      <h3 className="my-10 text-3xl font-bold">Bebidas</h3>
       {qMenu.isLoading ? (
         <Loader />
       ) : (

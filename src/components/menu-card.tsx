@@ -20,15 +20,17 @@ export default function MenuCard({ menuItem }: Props) {
 
   return (
     <div className="flex gap-2">
-      <img
-        src={menuItem.img}
-        alt={menuItem.title}
-        className="size-28 rounded-md duration-300 hover:rotate-2 hover:scale-110"
-      />
-      <div>
+      <div className="relative aspect-square size-28 shrink-0 overflow-hidden rounded-md duration-300 hover:rotate-2 hover:scale-110">
+        <img
+          src={menuItem.img}
+          alt={menuItem.title}
+          className="absolute size-full object-cover"
+        />
+      </div>
+      <div className="w-full">
         <p className="font-bold">{menuItem.title}</p>
         <p className="text-sm">{menuItem.ingredients.join(' · ')}</p>
-        <div className="mt-3 flex items-center justify-between gap-2">
+        <div className="mt-3 flex w-full items-center justify-between gap-2">
           <p className="text-lg font-bold">{toReal(menuItem.price)}</p>
           <button
             className="rounded bg-gray-900 px-4 py-1 flex-center"
