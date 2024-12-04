@@ -1,4 +1,4 @@
-import CheckoutInfoForm from '@/components/checkout-info-form';
+import CheckoutInfoForm, { FormSchema } from '@/components/checkout-info-form';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -17,17 +17,30 @@ import { useCartStore } from '@/stores/cart';
 import { MenuItem } from '@/types/menu';
 import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function CartButton() {
   const [open, setOpen] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
-  const { cart, addToCart, cartTotalItems, cartTotalPrice, removeFromCart } =
-    useCartStore();
+  const [formValues, setFormValues] = useState<FormSchema>();
+  const {
+    cart,
+    addToCart,
+    cartTotalItems,
+    cartTotalPrice,
+    removeFromCart,
+    clearCart,
+  } = useCartStore();
 
   function handleSubmit() {
-    alert('Itens enviados');
-    checkoutToWhatsapp(cart, 'Rua das Amarguras');
-    setOpen(false);
+    try {
+      checkoutToWhatsapp(cart, formValues);
+      toast.success('Pedido enviado');
+      clearCart();
+      setOpen(false);
+    } catch (e) {
+      toast.error('Erro ao enviar o pedido');
+    }
   }
 
   function handleRemoveItem(menuItem: MenuItem) {
@@ -46,14 +59,14 @@ export default function CartButton() {
           <ShoppingCartIcon />
         </button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-4xl">
+      <AlertDialogContent className="max-w-4xl bg-white">
         <AlertDialogHeader>
           <AlertDialogTitle>Meu Carrinho</AlertDialogTitle>
           <AlertDialogDescription>
             Confira os itens antes de finalizar a compra
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <ScrollArea className="h-[400px] flex-auto space-y-5">
+        <ScrollArea className="-mr-3 h-[400px] flex-auto space-y-5 pb-6 pr-3">
           <div className="mb-2 flex flex-col justify-between">
             {cart.map((cartItem) => (
               <div
@@ -94,21 +107,28 @@ export default function CartButton() {
           </div>
           <div className="space-y-4">
             <h3 className="font-semibold">Preencha seus dados</h3>
-            <CheckoutInfoForm setCanSubmit={setCanSubmit} />
+            <CheckoutInfoForm
+              setCanSubmit={setCanSubmit}
+              setFormValues={setFormValues}
+            />
           </div>
         </ScrollArea>
-        <p className="font-bold">
-          Total: <span id="cart-total">{toReal(cartTotalPrice())}</span>
-        </p>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <Button
-            onClick={handleSubmit}
-            className="bg-green-500"
-            disabled={!canSubmit}
-          >
-            Finalizar Pedido
-          </Button>
+
+        <AlertDialogFooter className="flex w-full items-center !justify-between">
+          <p className="font-bold">
+            Total: <span id="cart-total">{toReal(cartTotalPrice())}</span>
+          </p>
+
+          <div className="gap-2 flex-center">
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <Button
+              onClick={handleSubmit}
+              className="bg-green-500"
+              disabled={!canSubmit}
+            >
+              Finalizar Pedido
+            </Button>
+          </div>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

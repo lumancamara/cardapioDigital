@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -24,11 +25,17 @@ const formSchema = z.object({
   observation: z.string().min(5, 'Campo inválido').optional().or(z.literal('')),
 });
 
+export type FormSchema = z.infer<typeof formSchema> | undefined;
+
 interface Props {
   setCanSubmit: (value: boolean) => void;
+  setFormValues: (values: FormSchema) => void;
 }
 
-export default function CheckoutInfoForm({ setCanSubmit }: Props) {
+export default function CheckoutInfoForm({
+  setCanSubmit,
+  setFormValues,
+}: Props) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     mode: 'onChange',
@@ -41,8 +48,9 @@ export default function CheckoutInfoForm({ setCanSubmit }: Props) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: FormSchema) {
     console.log(values);
+    setFormValues(values);
   }
 
   useEffect(() => {
@@ -132,7 +140,8 @@ export default function CheckoutInfoForm({ setCanSubmit }: Props) {
             <FormItem>
               <FormLabel>Observação (opcional)</FormLabel>
               <FormControl>
-                <Input
+                <Textarea
+                  rows={5}
                   placeholder="Alguma observação sobre o pedido?"
                   {...field}
                 />
