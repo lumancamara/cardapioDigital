@@ -52,7 +52,7 @@ export default function CartButton() {
     }
 
     try {
-      checkoutToWhatsapp(cart, formValues);
+      checkoutToWhatsapp(cart, cartTotalPrice(), formValues);
       toast.success('Pedido enviado');
       clearCart();
       setOpen(false);
