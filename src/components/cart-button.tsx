@@ -43,7 +43,7 @@ export default function CartButton() {
   function handleSubmit() {
     if (!isWorkingTime(qWorkingTime.data)) {
       toast.error(
-        `Sentimos muito mas estamos fechados no momento! Favor Tentar no horário entre ${qWorkingTime.data.opening_hour}h e ${qWorkingTime.data.closing_hour}h de Sexta à Domingo!`,
+        `Sentimos muito mas estamos fechados no momento! Favor Tentar no horário entre ${qWorkingTime.data!.opening_hour}h e ${qWorkingTime.data!.closing_hour}h de Sexta à Domingo!`,
         {
           classNames: { toast: '!bg-red-500 !text-white' },
         }

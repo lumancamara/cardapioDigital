@@ -35,7 +35,7 @@ export function formatShortDate(date: Date): string {
   });
 }
 
-export function isWorkingTime(workingTime: WorkingTimeResponse) {
+export function isWorkingTime(workingTime: WorkingTimeResponse | undefined) {
   if (!workingTime) {
     return false;
   }
