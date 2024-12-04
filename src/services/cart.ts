@@ -25,5 +25,5 @@ export function checkoutToWhatsapp(
   text = text.replaceAll('INSERT_NEW_LINE', '%0a');
   const url = `https://wa.me/${phone}?text=${text}`;
   console.log(url);
-  // window.location.href = url;
+  window.location.href = url;
 }
