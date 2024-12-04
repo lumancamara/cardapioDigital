@@ -1,4 +1,4 @@
-import Cart from '@/components/cart';
+import CartButton from '@/components/cart-button';
 import { useCartStore } from '@/stores/cart';
 
 export default function Footer() {
@@ -8,7 +8,7 @@ export default function Footer() {
 
   return (
     <footer className="fixed bottom-0 z-40 flex w-full items-center justify-center bg-red-500 py-3">
-      <Cart />
+      <CartButton />
     </footer>
   );
 }
