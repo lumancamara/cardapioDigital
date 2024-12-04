@@ -14,10 +14,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { CLOSING_HOUR, OPENING_HOUR } from '@/constants/time';
 import { isWorkingTime, toReal } from '@/lib/utils';
 import { checkoutToWhatsapp } from '@/services/cart';
+import { getWorkingTime } from '@/services/time';
 import { useCartStore } from '@/stores/cart';
 import { MenuItem } from '@/types/menu';
 import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useQuery } from 'react-query';
 import { toast } from 'sonner';
 
 export default function CartButton() {
@@ -33,8 +35,14 @@ export default function CartButton() {
     clearCart,
   } = useCartStore();
 
+  const qWorkingTime = useQuery({
+    queryKey: ['working-time'],
+    queryFn: () => getWorkingTime(),
+    staleTime: Infinity,
+  });
+
   function handleSubmit() {
-    if (!isWorkingTime()) {
+    if (!isWorkingTime(qWorkingTime.data)) {
       toast.error(
         `Sentimos muito mas estamos fechados no momento! Favor Tentar no horário entre ${OPENING_HOUR}h e ${CLOSING_HOUR}h de Sexta à Domingo!`,
         {

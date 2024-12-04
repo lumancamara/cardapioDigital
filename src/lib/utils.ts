@@ -1,4 +1,4 @@
-import { CLOSING_HOUR, OPENING_HOUR, WORKING_WEEKDAYS } from '@/constants/time';
+import { WorkingTimeResponse } from '@/types/time';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -35,13 +35,16 @@ export function formatShortDate(date: Date): string {
   });
 }
 
-export function isWorkingTime() {
+export function isWorkingTime(workingTime: WorkingTimeResponse) {
+  if (!workingTime) {
+    return false;
+  }
   const date = new Date();
   const weekDay = date.getDay();
   const hour = date.getHours();
   return (
-    hour >= OPENING_HOUR &&
-    hour < CLOSING_HOUR &&
-    WORKING_WEEKDAYS.includes(weekDay)
+    hour >= workingTime.opening_hour &&
+    hour < workingTime.closing_hour &&
+    workingTime.working_weekdays.includes(weekDay)
   );
 }
