@@ -13,7 +13,9 @@ export default function MenuCard({ menuItem }: Props) {
 
   function handleAddToCart() {
     addToCart(menuItem);
-    toast.success(`${menuItem.title} adicionado ao carrinho!`);
+    toast.success(`${menuItem.title} adicionado ao carrinho!`, {
+      classNames: { toast: '!bg-white' },
+    });
   }
 
   return (
