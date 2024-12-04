@@ -59,7 +59,7 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       backgroundImage: {
-        home: "url('bg.jpg')",
+        header: "url('/bg.jpg')",
       },
     },
   },

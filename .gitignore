@@ -1,5 +1,7 @@
 NOTAS.md
 .env
+*.tsbuildinfo
+vite.config.js
 
 # Logs
 logs

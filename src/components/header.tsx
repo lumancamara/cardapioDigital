@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <header className="bg-home h-[420px] w-full bg-cover bg-center">
+    <header className="bg-header h-[420px] w-full bg-cover bg-center">
       <div className="flex h-full w-full flex-col items-center justify-center">
         <img
           src="logo.jpg"
