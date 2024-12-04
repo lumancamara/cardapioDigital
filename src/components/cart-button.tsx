@@ -11,7 +11,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { toReal } from '@/lib/utils';
+import { CLOSING_HOUR, OPENING_HOUR } from '@/constants/time';
+import { isWorkingTime, toReal } from '@/lib/utils';
 import { checkoutToWhatsapp } from '@/services/cart';
 import { useCartStore } from '@/stores/cart';
 import { MenuItem } from '@/types/menu';
@@ -33,13 +34,23 @@ export default function CartButton() {
   } = useCartStore();
 
   function handleSubmit() {
+    if (!isWorkingTime()) {
+      toast.error(
+        `Sentimos muito mas estamos fechados no momento! Favor Tentar no horário entre ${OPENING_HOUR}h e ${CLOSING_HOUR}h de Sexta à Domingo!`,
+        {
+          classNames: { toast: '!bg-red-500 !text-white' },
+        }
+      );
+      return;
+    }
+
     try {
       checkoutToWhatsapp(cart, formValues);
       toast.success('Pedido enviado');
       clearCart();
       setOpen(false);
     } catch (e) {
-      toast.error('Erro ao enviar o pedido');
+      toast.error(e as string);
     }
   }
 
@@ -63,7 +74,7 @@ export default function CartButton() {
         <AlertDialogHeader>
           <AlertDialogTitle>Meu Carrinho</AlertDialogTitle>
           <AlertDialogDescription>
-            Confira os itens antes de finalizar a compra
+            Confira os itens e preencha os dados antes de finalizar a compra
           </AlertDialogDescription>
         </AlertDialogHeader>
         <ScrollArea className="-mr-3 h-[400px] flex-auto space-y-5 pb-6 pr-3">
@@ -73,16 +84,20 @@ export default function CartButton() {
                 className="flex items-center justify-between gap-5 border-b py-2"
                 key={cartItem.slug}
               >
-                <div>
+                <div className="space-y-2">
                   <p className="font-medium">{cartItem.title}</p>
                   <p>Qtd: {cartItem.quantity}</p>
-                  <p className="mt-2 font-medium">
-                    Preço: {toReal(cartItem.price)}
-                  </p>
-                  <p className="mt-2 font-medium">
-                    Total: {toReal(cartItem.price)}
+                  <p className="">Preço: {toReal(cartItem.price)}</p>
+                  <p className="font-medium">
+                    Total: {toReal(cartItem.price * cartItem.quantity)}
                   </p>
                 </div>
+
+                <img
+                  src={cartItem.img}
+                  alt={cartItem.title}
+                  className="size-12 rounded-md duration-300 hover:rotate-2 hover:scale-110"
+                />
 
                 <div className="gap-2 flex-center">
                   <Button

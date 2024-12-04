@@ -1,18 +1,21 @@
 import { FormSchema } from '@/components/checkout-info-form';
 import { CartItem } from '@/types/cart';
-import { redirect } from 'react-router-dom';
 
 export function checkoutToWhatsapp(cart: CartItem[], formValues: FormSchema) {
-  if (cart.length === 0) return;
-  if (!formValues) return;
+  if (cart.length === 0) {
+    throw new Error('O carrinho está vazio');
+  }
+  if (!formValues) {
+    throw new Error('Dados inválidos');
+  }
   const cartItems = cart
     .map((item) => {
-      return ` ${item.title} Quantidade: (${item.quantity}) Preço: R$ ${item.price} |`;
+      return `%0a${item.title} Quantidade: (${item.quantity}) Preço: R$ ${item.price}`;
     })
-    .join('');
-  const items = encodeURIComponent(cartItems);
+    .join(' ');
+  const encodedItems = encodeURIComponent(cartItems);
   const phone = formValues.phoneNumber;
-  redirect(
-    `https://wa.me/${phone}?text=${items}%0aEndereço: ${formValues.address}, ${formValues.addressNumber}%0aObs: ${formValues.observation || ''}`
-  );
+  const url = `https://wa.me/${phone}?text=${encodedItems}%0aEndereço: ${formValues.address}, ${formValues.addressNumber}%0aObs: ${formValues.observation || ''}`;
+  console.log(url);
+  window.location.href = url;
 }

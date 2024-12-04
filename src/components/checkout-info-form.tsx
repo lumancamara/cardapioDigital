@@ -54,6 +54,14 @@ export default function CheckoutInfoForm({
   }
 
   useEffect(() => {
+    const subscription = form.watch((values) => {
+      console.log(values);
+      setFormValues(values as FormSchema);
+    });
+    return () => subscription.unsubscribe();
+  }, [form.watch, setFormValues]);
+
+  useEffect(() => {
     setCanSubmit(form.formState.isValid);
   }, [form.formState.isValid]);
 

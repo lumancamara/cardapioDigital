@@ -1,3 +1,4 @@
+import { CLOSING_HOUR, OPENING_HOUR, WORKING_WEEKDAYS } from '@/constants/time';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -32,4 +33,15 @@ export function formatShortDate(date: Date): string {
     // year: "numeric",
     dateStyle: 'short',
   });
+}
+
+export function isWorkingTime() {
+  const date = new Date();
+  const weekDay = date.getDay();
+  const hour = date.getHours();
+  return (
+    hour >= OPENING_HOUR &&
+    hour < CLOSING_HOUR &&
+    WORKING_WEEKDAYS.includes(weekDay)
+  );
 }
